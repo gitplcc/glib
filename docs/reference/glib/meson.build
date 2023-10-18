@@ -4,6 +4,7 @@ if get_option('gtk_doc')
   ignore_headers = [
     'gallocator.h',
     'gdatasetprivate.h',
+    'gdatetime-private.h',
     'glibintl.h',
     'gbsearcharray.h',
     'glib-private.h',

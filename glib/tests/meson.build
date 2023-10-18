@@ -29,6 +29,7 @@ glib_tests = {
   'error' : {},
   'fileutils' : {},
   'gdatetime' : {
+    'source' : ['gdatetime.c', '../gdatetime-private.c'],
     'suite' : ['slow'],
     'can_fail' : host_system == 'windows',
   },
