@@ -1828,7 +1828,12 @@ has_systypes = cc.has_header('sys/types.h')
 if has_syspoll
   glibconfig_conf.set('GLIB_HAVE_SYS_POLL_H', true)
 endif
-has_winsock2 = cc.has_header('winsock2.h')
+
+if host_system == 'windows'
+  has_winsock2 = cc.has_header('winsock2.h')
+else
+  has_winsock2 = false
+endif
 
 if has_syspoll and has_systypes
   poll_includes = '''
