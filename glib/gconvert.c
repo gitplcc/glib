@@ -1712,7 +1712,9 @@ g_filename_from_uri (const gchar *uri,
   if (past_path != NULL)
     *past_path = '\0';
 
-  if (has_case_prefix (past_scheme, "///"))
+  if (has_case_prefix (past_scheme, "////"))
+    past_scheme += 1;
+  else if (has_case_prefix (past_scheme, "///"))
     past_scheme += 2;
   else if (has_case_prefix (past_scheme, "//"))
     {

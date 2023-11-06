@@ -127,7 +127,11 @@ file_from_uri_tests[] = {
   { "file://otherhost/etc", "/etc", "otherhost", 0 },
   { "file://otherhost/etc/%23%25%20file", "/etc/#% file", "otherhost", 0 },
   { "file://%C3%B6%C3%A4%C3%A5/etc", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
+#ifdef G_WITH_CYGWIN
+  { "file:////etc/%C3%B6%C3%C3%C3%A5", "///etc/\xc3\xb6\xc3\xc3\xc3\xa5", NULL, 0 },
+#else
   { "file:////etc/%C3%B6%C3%C3%C3%A5", "//etc/\xc3\xb6\xc3\xc3\xc3\xa5", NULL, 0 },
+#endif
   { "file://\xE5\xE4\xF6/etc", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
   { "file://%E5%E4%F6/etc", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
   { "file:///some/file?query", "/some/file", NULL, 0 },
@@ -136,8 +140,13 @@ file_from_uri_tests[] = {
   { "", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
   { "file:test", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
   { "http://www.yahoo.com/", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
+#ifdef G_WITH_CYGWIN
+  { "file:////etc", "///etc", NULL, 0 },
+  { "file://///etc", "////etc", NULL, 0 },
+#else
   { "file:////etc", "//etc", NULL, 0 },
   { "file://///etc", "///etc", NULL, 0 },
+#endif
 #ifdef G_OS_WIN32
   /* URIs with backslashes come from some nonstandard application, but accept them anyhow */
   { "file:///c:\\foo", "c:\\foo", NULL, 0 },
@@ -150,7 +159,11 @@ file_from_uri_tests[] = {
 #else
   { "file:///c:\\foo", "/c:\\foo", NULL, 0 },
   { "file:///c:/foo", "/c:/foo", NULL, 0 },
+#ifdef G_WITH_CYGWIN
+  { "file:////c:/foo", "///c:/foo",  NULL, 0 },
+#else
   { "file:////c:/foo", "//c:/foo",  NULL, 0 },
+#endif
 #endif
   { "file://0123456789/", NULL, NULL, G_CONVERT_ERROR_BAD_URI},
   { "file://ABCDEFGHIJKLMNOPQRSTUVWXYZ/", "/", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0 },
